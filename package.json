@@ -10,6 +10,13 @@
     "type": "git",
     "url": "git+https://github.com/romalice1/FSEchatApp.git"
   },
+
+  "dependencies": {
+    "body-parser": "*",
+    "ejs": "^2.5.5",
+    "express": "*"
+  },
+  
   "author": "Romalice Ishimwe",
   "license": "ISC",
   "bugs": {

@@ -1,0 +1,30 @@
+body{
+	color: #555555;
+}
+#login, #chatroom{
+	width: 30%;
+	border: 1px solid #ededed;
+	padding: 2em;
+	margin: 0 auto;
+	margin-top: 2em;
+}
+#chatroom #message{
+	padding: 1em;
+	background: #e4eae5;
+	border-radius: 5px;
+	margin-top: 3px;
+	margin-bottom: 3px;
+}
+#chatroom #chat-name{
+	font-weight: bold;
+	padding-left: 0px;
+}
+#chatroom #chat-list{
+	color: #000000;
+	text-indent: 1em;
+}
+.btn{
+	text-align: center;
+	width: 100%;
+	margin-top: 2px;
+}
