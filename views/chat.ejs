@@ -9,16 +9,26 @@
 		<div class='panel panel-primary'>
 			<div class="panel-heading">FSE chat room - <%= chat_name %></div>
 			<div class="panel-body">
+
+				<!--this block	only shows up when there is a message to display -->
+				<% if(message != null) {%>
 				<div id='message'>
-					<div id='chat-name' class='col-sm-6 text-left'>name</div> 
-					<div id='chat-timestamp' class='col-sm-6 text-right'><em>12:23:13</em></div>
+					<div id='chat-name' class='col-sm-6 text-left'><%= chat_name %></div> 
+					<div id='chat-timestamp' class='col-sm-6 text-right'>
+						<span class="glyphicon glyphicon-time"></span> <em><%= timestamp %></em>
+					</div>
 					<p class='chat-list'>
-						Message here.... Hi there
+						<%= message %>
 					</p>
 				</div>
-				<form action='' method='POST'>
+				<%}%>
+				<!-- Done hidding block --> 
+
+				<form action='/post' method='POST'>
+					<!-- Hidden input -->
+					<input type='hidden' name='chat_name' value='<%= chat_name %>'/>
 					<div id='message-input'>
-						<textarea placeholder='Write here...' class='form-control'></textarea>
+						<textarea name='message' placeholder='Write here...' class='form-control'></textarea>
 					</div>
 					<button class='btn btn-primary'>
 						<span class="glyphicon glyphicon-send"></span>  POST
@@ -26,7 +36,7 @@
 				</form>
 			</div>
 			<div class="panel-footer">
-				<a href='' class='btn btn-danger'><span class="glyphicon glyphicon-off"></span> Leave chat</a>
+				<a href='/' class='btn btn-danger'><span class="glyphicon glyphicon-off"></span> Leave chat</a>
 			</div>
 		</div>
 	</div>
