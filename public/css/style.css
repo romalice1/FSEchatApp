@@ -2,7 +2,7 @@ body{
 	color: #555555;
 }
 #login, #chatroom{
-	width: 30%;
+	/*width: 30%;*/
 	border: 1px solid #ededed;
 	padding: 2em;
 	margin: 0 auto;
@@ -10,18 +10,26 @@ body{
 }
 #chatroom #message{
 	padding: 1em;
+	display: block;
 	background: #e4eae5;
-	border-radius: 5px;
+	border-radius: 5px 40px 5px 40px;
 	margin-top: 3px;
 	margin-bottom: 3px;
 }
-#chatroom #chat-name{
+#chatroom #chat-head{
 	font-weight: bold;
 	padding-left: 0px;
+}
+#chatroom #chat-time{
+	margin-left: 70%
 }
 #chatroom #chat-list{
 	color: #000000;
 	text-indent: 1em;
+}
+#messages-container{
+	height: 18em;
+	overflow: auto;
 }
 .btn{
 	text-align: center;

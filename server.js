@@ -13,8 +13,8 @@ var connection = mysql.createConnection({
   password: 'fse',
   database: 'fsechat'
 })
-
 connection.connect();
+//connection.end();
 
 var logger = function(request, response, next){
 	console.log('Logging...');
@@ -43,10 +43,19 @@ app.get("/", function(req, res){
 
 // chat window
 app.post("/home", function(req, res){
-	//set 'message' to null to be able to handle it
-	res.render('chat', {
-		'chat_name' : req.body.chat_name,
-		'message' : null 
+	//Query from the db and display messages
+	connection.query("SELECT name, message, date_format(time, '%I:%i:%s %p') as time FROM chats ORDER BY chats.time DESC", function (err, rows, fields) {
+	  if (err){
+	  	console.log(err);
+	  }else{
+	  	//send to client's browser
+	  	res.render('chat', { 
+	  		items: rows,  
+	  		'chat_name' : req.body.chat_name,
+	  	});
+	  	console.log('Results available from mysql');
+	  }
+	  
 	});
 });
 
@@ -55,30 +64,37 @@ app.post('/post', function(req, res){
 	var timestamp = new Date();
 	var timeString = timestamp.getHours()+':'+timestamp.getMinutes()+':'+timestamp.getSeconds();
 	
-	var messagejson = {
-		'chat_name' : req.body.chat_name,
-		'message' : req.body.message,
-		'timestamp' : timeString
-	};
-	
-	 var chat_name = req.body.chat_name;
-	 var message = req.body.message;
-	 var post = {name: chat_name, message: message};
+	var chat_name = req.body.chat_name;
+	var message = req.body.message;
+	var post = {name: chat_name, message: message};
+
 	//save it to database
-	connection.query("INSERT INTO chats SET ?", post, function (err, rows, fields) {
+	connection.query('INSERT INTO chats SET ?', post, function (err, rows, fields) {
 	  if (err){
+	  	console.log(err);
 	  }else{
 	  	console.log('Rows inserted');
+	  	console.log(rows);
 	  }
 	  
-	})
+	});
 
-	res.render('chat', messagejson);
+	//Now, query again from the db and display messages
+	connection.query("SELECT name, message, date_format(time, '%I:%i:%s %p') as time FROM chats ORDER BY chats.time DESC", function (err, rows, fields) {
+	  if (err){
+	  	console.log(err);
+	  }else{	  	
+	  	res.render('chat', { 
+	  		items: rows,
+	  		'chat_name' : req.body.chat_name
+	  	}); 
+	  	console.log('Results available from mysql');
+	  }
+	  
+	});
 });
 
 /** server listen **/
 app.listen(3000, function(){
 	console.log('Server started on port 3000...');
 });
-
-connection.end();

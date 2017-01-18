@@ -5,25 +5,31 @@
 	<link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 <body>
-	<div id='chatroom'>
+	<div id='chatroom' class='container container-fluid'>
 		<div class='panel panel-primary'>
-			<div class="panel-heading">FSE chat room - <%= chat_name %></div>
+			<div class="panel-heading">
+				FSE chat room - <%= chat_name %>
+			</div>
 			<div class="panel-body">
-
-				<!--this block	only shows up when there is a message to display -->
-				<% if(message != null) {%>
-				<div id='message'>
-					<div id='chat-name' class='col-sm-6 text-left'><%= chat_name %></div> 
-					<div id='chat-timestamp' class='col-sm-6 text-right'>
-						<span class="glyphicon glyphicon-time"></span> <em><%= timestamp %></em>
-					</div>
-					<p class='chat-list'>
-						<%= message %>
-					</p>
+				<div id="messages-container">
+					<!--this block	only shows up when there is a message to display -->
+					<ul>
+						<li>
+					<% items.forEach(function(chat){ %>
+						<div id='message'>
+							<div id='chat-head'>
+								<%= chat.name %>
+								<span id="chat-time"><em><%= chat.time %></em></span>
+							</div>
+							<p class='chat-list'>
+								<%= chat.message %>
+							</p>
+						</div>
+					<% }) %>
+				</li>
+				</ul>
+					<!-- Done hidding block --> 
 				</div>
-				<%}%>
-				<!-- Done hidding block --> 
-
 				<form action='/post' method='POST'>
 					<!-- Hidden input -->
 					<input type='hidden' name='chat_name' value='<%= chat_name %>'/>
