@@ -17,12 +17,6 @@ var connection = mysql.createConnection({
 })
 connection.connect();
 
-// var logger = function(request, response, next){
-// 	console.log('Logging...');
-// 	next();
-// }
-// app.use(logger);
-
 /** view engine **/
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
