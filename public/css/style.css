@@ -1,28 +1,29 @@
-body{
-	color: #555555;
-}
+{
+	border: 1px solid #ededed;
+	padding: 2em;
+	margin: 0 auto;
+	margin-top: 2em;
+} 
 #login, #chatroom{
-	/*width: 30%;*/
 	border: 1px solid #ededed;
 	padding: 2em;
 	margin: 0 auto;
 	margin-top: 2em;
 }
-#chatroom #message{
-	padding: 1em;
-	display: block;
-	background: #e4eae5;
-	border-radius: 5px 40px 5px 40px;
-	margin-top: 3px;
-	margin-bottom: 3px;
-}
+
 #chatroom #chat-head{
-	font-weight: bold;
+	padding-left: 5px;
+	font-size: 11px;
+	color: #990077;
+}
+#chatroom #chat-name{
+	text-align: left;
 	padding-left: 0px;
 }
 #chatroom #chat-time{
-	margin-left: 70%
+	text-align: right;
 }
+
 #chatroom #chat-list{
 	color: #000000;
 	text-indent: 1em;
@@ -31,8 +32,13 @@ body{
 	height: 18em;
 	overflow: auto;
 }
-.btn{
-	text-align: center;
+.btn-logout{
+	border-radius:50%;
+}
+.chat-list{
+	background: #ffffff;
+	padding-top: 2px;
+	padding-left: 5px;
+	padding-bottom: 5px;
 	width: 100%;
-	margin-top: 2px;
 }

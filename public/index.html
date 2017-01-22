@@ -5,13 +5,21 @@
 	<link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 <body>
-	<div id='login'>
-		<h2>Welcome to FSE chat room</h2>
-		To get started, please provide your name
-		<form action='home' method='POST'>
-			<input type='text' name='chat_name' placeholder='Enter your name here' class='form-control' required />
-			<input id='login-button' type='submit' value='ENTER' class='btn btn-primary'/>
-		</form>
+	<div class='container-fluid'>
+		<div id='login'>
+			<h2>Welcome to FSE chat room</h2>
+			To get started, please provide your name
+			<form action='home' method='POST'>
+				<div class="">
+				    <div class="input-group">
+				      <input type="text" name='chat_name' class="form-control" placeholder="Enter your name here..." required>
+				      <span class="input-group-btn">
+				        <input type='submit' class="btn btn-primary" value='Enter chat' />
+				      </span>
+				    </div>
+				</div>
+			</form>
+		</div>
 	</div>
 </body>
 </html>

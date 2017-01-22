@@ -1,9 +1,11 @@
 /* Initial declarations */
 var express = require("express");
+var app = express();
+var server = require('http').createServer(app);
+var io = require('socket.io').listen(server);
+
 var bodyParser = require("body-parser");
 var path  = require('path');
-
-var app = express();
 
 /** connect to MySQL*/
 var mysql = require('mysql')
@@ -14,13 +16,12 @@ var connection = mysql.createConnection({
   database: 'fsechat'
 })
 connection.connect();
-//connection.end();
 
-var logger = function(request, response, next){
-	console.log('Logging...');
-	next();
-}
-app.use(logger);
+// var logger = function(request, response, next){
+// 	console.log('Logging...');
+// 	next();
+// }
+// app.use(logger);
 
 /** view engine **/
 app.set('view engine', 'ejs');
@@ -41,10 +42,10 @@ app.get("/", function(req, res){
 	res.render('index');
 });
 
-// chat window
+// user lands on homepage
 app.post("/home", function(req, res){
 	//Query from the db and display messages
-	connection.query("SELECT name, message, date_format(time, '%I:%i:%s %p') as time FROM chats ORDER BY chats.time DESC", function (err, rows, fields) {
+	connection.query("SELECT name, message, time FROM chats ORDER BY chats.time DESC", function (err, rows, fields) {
 	  if (err){
 	  	console.log(err);
 	  }else{
@@ -59,42 +60,39 @@ app.post("/home", function(req, res){
 	});
 });
 
-// message is posted
-app.post('/post', function(req, res){
-	var timestamp = new Date();
-	var timeString = timestamp.getHours()+':'+timestamp.getMinutes()+':'+timestamp.getSeconds();
-	
-	var chat_name = req.body.chat_name;
-	var message = req.body.message;
-	var post = {name: chat_name, message: message};
+/**** Socket.io *************************/
+//Whenever anyone connects
+io.on('connection', function(socket){
 
-	//save it to database
-	connection.query('INSERT INTO chats SET ?', post, function (err, rows, fields) {
+  console.log('User connected');
+
+  //disconnect
+  socket.on('disconnect', function () {
+    console.log('User disconnected');
+  });
+
+  //send message
+  socket.on('send message', function(data){
+  	io.sockets.emit('new message', data);
+  	console.log(data.name);
+
+  	//save to db
+  	//data = {name: 'name', message:'message', time: 'time'};
+  	connection.query('INSERT INTO chats SET ?', data, function (err, rows, fields) {
 	  if (err){
 	  	console.log(err);
 	  }else{
 	  	console.log('Rows inserted');
 	  	console.log(rows);
 	  }
-	  
 	});
+  });
 
-	//Now, query again from the db and display messages
-	connection.query("SELECT name, message, date_format(time, '%I:%i:%s %p') as time FROM chats ORDER BY chats.time DESC", function (err, rows, fields) {
-	  if (err){
-	  	console.log(err);
-	  }else{	  	
-	  	res.render('chat', { 
-	  		items: rows,
-	  		'chat_name' : req.body.chat_name
-	  	}); 
-	  	console.log('Results available from mysql');
-	  }
-	  
-	});
+
+
 });
+/*****************************************/
 
-/** server listen **/
-app.listen(3000, function(){
+server.listen(4000, function(){
 	console.log('Server started on port 3000...');
 });
